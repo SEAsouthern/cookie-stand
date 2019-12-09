@@ -7,7 +7,7 @@ var citySeattle = {
     return Math.ceil(Math.random() * (this.maxCust - this.minCust) + this.minCust);
   },
   salesEst: function () {
-    return this.custEst() * this.avgCookie;
+    return Math.ceil(this.custEst() * this.avgCookie);
   },
 };
 console.log(citySeattle.salesEst());
@@ -21,7 +21,7 @@ var cityTokyo = {
     return Math.ceil(Math.random() * (this.maxCust - this.minCust) + this.minCust);
   },
   salesEst: function () {
-    return this.custEst() * this.avgCookie;
+    return Math.ceil(this.custEst() * this.avgCookie);
   },
 };
 console.log(cityTokyo.salesEst());
@@ -35,7 +35,7 @@ var cityDubai = {
     return Math.ceil(Math.random() * (this.maxCust - this.minCust) + this.minCust);
   },
   salesEst: function () {
-    return this.custEst() * this.avgCookie;
+    return Math.ceil(this.custEst() * this.avgCookie);
   },
 };
 console.log(cityDubai.salesEst());
@@ -49,7 +49,7 @@ var cityParis = {
     return Math.ceil(Math.random() * (this.maxCust - this.minCust) + this.minCust);
   },
   salesEst: function () {
-    return this.custEst() * this.avgCookie;
+    return Math.ceil(this.custEst() * this.avgCookie);
   },
 };
 console.log(cityParis.salesEst());
@@ -63,7 +63,7 @@ var cityLima = {
     return Math.ceil(Math.random() * (this.maxCust - this.minCust) + this.minCust);
   },
   salesEst: function () {
-    return this.custEst() * this.avgCookie;
+    return Math.ceil(this.custEst() * this.avgCookie);
   },
 };
 console.log(cityLima.salesEst());
@@ -72,9 +72,9 @@ var cityArray = [citySeattle, cityTokyo, cityDubai, cityParis, cityLima];
 var cityHolder = document.getElementById('city-holder');
 cityHolder.textContent = 'Cookie sales estimates by city';
 for (var i = 0; i < cityArray.length; i++){
-  var newParagraph = document.createElement('ul');
-  newParagraph.textContent = `${cityArray[i].name} sales estimate: ${cityArray[i].salesEst()}`;
-  cityHolder.appendChild(newParagraph);
+  var newUList = document.createElement('ul');
+  newUList.textContent = `${cityArray[i].name} sales estimate: ${cityArray[i].salesEst()}`;
+  cityHolder.appendChild(newUList);
 }
 
 
