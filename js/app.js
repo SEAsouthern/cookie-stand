@@ -76,13 +76,13 @@ var cityArray = [citySeattle, cityTokyo, cityDubai, cityParis, cityLima];
 var cityHolder = document.getElementById('city-holder');
 
 cityHolder.textContent = 'Cookie sales estimates by city';
-for (var i = 0; i < cityArray.length; i++){
+for (var i = 0; i < cityArray.length; i++) {
   var newH1 = document.createElement('h1');
   newH1.textContent = `${cityArray[i].name} sales estimate`;
   cityHolder.appendChild(newH1);
-  for (var h = 0; h < hrs.length; h++){
+  for (var h = 0; h < hrs.length; h++) {
     var newLi = document.createElement('li');
-    newLi.textContent = hrs[h] + `${cityArray[i].salesEst()}`;
+    newLi.textContent = hrs[h] + ': ' + `${cityArray[i].salesEst()}`;
     cityHolder.appendChild(newLi);
   }
 }
