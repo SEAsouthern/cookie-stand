@@ -1,10 +1,14 @@
+'use strict';
+
+var hrs = ['6 a.m.', '7 a.m.', '8 a.m.', '9 a.m.', '10 a.m.', '11 a.m.', '12 p.m.', '1 p.m.', '2 p.m.', '3 p.m.', '4 p.m.', '5 p.m.', '6 p.m.', '7 p.m.'];
+
 var citySeattle = {
   name: 'Seattle',
   minCust: 23,
   maxCust: 65,
   avgCookie: 6.3,
   custEst: function () {
-    return Math.ceil(Math.random() * (this.maxCust - this.minCust) + this.minCust);
+    return Math.random() * (this.maxCust - this.minCust) + this.minCust;
   },
   salesEst: function () {
     return Math.ceil(this.custEst() * this.avgCookie);
@@ -18,7 +22,7 @@ var cityTokyo = {
   maxCust: 24,
   avgCookie: 1.2,
   custEst: function () {
-    return Math.ceil(Math.random() * (this.maxCust - this.minCust) + this.minCust);
+    return Math.random() * (this.maxCust - this.minCust) + this.minCust;
   },
   salesEst: function () {
     return Math.ceil(this.custEst() * this.avgCookie);
@@ -70,11 +74,17 @@ console.log(cityLima.salesEst());
 
 var cityArray = [citySeattle, cityTokyo, cityDubai, cityParis, cityLima];
 var cityHolder = document.getElementById('city-holder');
+
 cityHolder.textContent = 'Cookie sales estimates by city';
 for (var i = 0; i < cityArray.length; i++){
-  var newUList = document.createElement('ul');
-  newUList.textContent = `${cityArray[i].name} sales estimate: ${cityArray[i].salesEst()}`;
-  cityHolder.appendChild(newUList);
+  var newH1 = document.createElement('h1');
+  newH1.textContent = `${cityArray[i].name} sales estimate`;
+  cityHolder.appendChild(newH1);
+  for (var h = 0; h < hrs.length; h++){
+    var newLi = document.createElement('li');
+    newLi.textContent = hrs[h] + `${cityArray[i].salesEst()}`;
+    cityHolder.appendChild(newLi);
+  }
 }
 
 
