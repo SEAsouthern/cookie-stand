@@ -101,7 +101,7 @@ var salesTable = document.getElementById('sales-table');
 
 var hoursRow = document.createElement('tr');
 var hoursCellFirst = document.createElement('td');
-hoursCellFirst.textContent = null;
+// hoursCellFirst.textContent = null;
 hoursRow.appendChild(hoursCellFirst);
 for (var h = 0; h < hrs.length; h++) {
   var hoursCell = document.createElement('td');
@@ -114,30 +114,42 @@ hoursRow.appendChild(hoursCellLast);
 salesTable.appendChild(hoursRow);
 
 //Create cityArray and then loop through all these functions
-// function calcAndRenderSales()
 
+var cityArray = [citySeattle, cityTokyo, cityDubai, cityParis, cityLima];
 
-citySeattle.calcHourlySales();
-citySeattle.calcTotalSales();
-citySeattle.render();
+function calcAndRenderSales() {
+  for (var i = 0; i < cityArray.length; i++) {
+    cityArray[i].calcHourlySales();
+    cityArray[i].calcTotalSales();
+    cityArray[i].render();
+    // cityArray[i].calcHourlyTotalSales();
+    // cityArray[i].calcTotalTotalSales();
+  }
+}
+
+calcAndRenderSales();
+
+// citySeattle.calcHourlySales();
+// citySeattle.calcTotalSales();
+// citySeattle.render();
 // citySeattle.calcHourlyTotalSales();
 // citySeattle.calcTotalTotalSales();
 
-cityTokyo.calcHourlySales();
-cityTokyo.calcTotalSales();
-cityTokyo.render();
+// cityTokyo.calcHourlySales();
+// cityTokyo.calcTotalSales();
+// cityTokyo.render();
 
-cityDubai.calcHourlySales();
-cityDubai.calcTotalSales();
-cityDubai.render();
+// cityDubai.calcHourlySales();
+// cityDubai.calcTotalSales();
+// cityDubai.render();
 
-cityParis.calcHourlySales();
-cityParis.calcTotalSales();
-cityParis.render();
+// cityParis.calcHourlySales();
+// cityParis.calcTotalSales();
+// cityParis.render();
 
-cityLima.calcHourlySales();
-cityLima.calcTotalSales();
-cityLima.render();
+// cityLima.calcHourlySales();
+// cityLima.calcTotalSales();
+// cityLima.render();
 
 // also add description
 // var descriptionCell = document.createElement('td');
