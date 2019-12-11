@@ -36,6 +36,7 @@ Salmon.prototype.calcTotalSales = function() {
   for (var h = 0; h < hrs.length; h++) {
     sum += this.hourlySales[h];
   }
+  this.totalSales = sum;
   console.log(sum);
 };
 
@@ -50,8 +51,14 @@ Salmon.prototype.render = function() {
     salesCell.textContent = this.hourlySales[s];
     salesRow.appendChild(salesCell);
   }
+  var salesCellTotal = document.createElement('td');
+  salesCellTotal.textContent = this.totalSales;
+  salesRow.appendChild(salesCellTotal);
   salesTable.appendChild(salesRow);
 };
+
+// Add total sales cell to end of hours row
+// Add total sales row (loop) to bottom of table
 
 var salesTable = document.getElementById('sales-table');
 
@@ -67,18 +74,23 @@ for (var h = 0; h < hrs.length; h++) {
 salesTable.appendChild(hoursRow);
 
 citySeattle.calcHourlySales();
+citySeattle.calcTotalSales();
 citySeattle.render();
 
 cityTokyo.calcHourlySales();
+cityTokyo.calcTotalSales();
 cityTokyo.render();
 
 cityDubai.calcHourlySales();
+cityDubai.calcTotalSales();
 cityDubai.render();
 
 cityParis.calcHourlySales();
+cityParis.calcTotalSales();
 cityParis.render();
 
 cityLima.calcHourlySales();
+cityLima.calcTotalSales();
 cityLima.render();
 
 // also add description
