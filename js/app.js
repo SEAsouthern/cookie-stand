@@ -2,6 +2,8 @@
 
 var hrs = ['6 a.m.', '7 a.m.', '8 a.m.', '9 a.m.', '10 a.m.', '11 a.m.', '12 p.m.', '1 p.m.', '2 p.m.', '3 p.m.', '4 p.m.', '5 p.m.', '6 p.m.', '7 p.m.'];
 
+
+// Below is my constructor function
 function Salmon(name, minCust, maxCust, avgCookie) {
   this.name = name;
   this.minCust = minCust;
@@ -13,11 +15,15 @@ function Salmon(name, minCust, maxCust, avgCookie) {
   this.totalTotalSales = null;
 }
 
+// Do totalSales and totalTotalSales need to save to a array? Or is null okay?
+
 var citySeattle = new Salmon('Seattle', 23, 65, 6.3);
 var cityTokyo = new Salmon('Tokyo', 3, 24, 1.2);
 var cityDubai = new Salmon('Dubai', 11, 38, 3.7);
 var cityParis = new Salmon('Paris', 20, 38, 2.3);
 var cityLima = new Salmon('Lima', 2, 16, 4.6);
+
+// Does there need to be an Array as a fifth column (argument)?
 
 Salmon.prototype.custEst = function() {
   return Math.random() * (this.maxCust - this.minCust) + this.minCust;
@@ -95,7 +101,7 @@ var salesTable = document.getElementById('sales-table');
 
 var hoursRow = document.createElement('tr');
 var hoursCellFirst = document.createElement('td');
-hoursCellFirst.textContent = 'City';
+hoursCellFirst.textContent = null;
 hoursRow.appendChild(hoursCellFirst);
 for (var h = 0; h < hrs.length; h++) {
   var hoursCell = document.createElement('td');
@@ -107,10 +113,15 @@ hoursCellLast.textContent = 'Total';
 hoursRow.appendChild(hoursCellLast);
 salesTable.appendChild(hoursRow);
 
+//Create cityArray and then loop through all these functions
+// function calcAndRenderSales()
+
+
 citySeattle.calcHourlySales();
 citySeattle.calcTotalSales();
 citySeattle.render();
-// citySeattle.hourlyTotalSales();
+// citySeattle.calcHourlyTotalSales();
+// citySeattle.calcTotalTotalSales();
 
 cityTokyo.calcHourlySales();
 cityTokyo.calcTotalSales();
