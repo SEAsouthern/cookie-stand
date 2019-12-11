@@ -23,8 +23,6 @@ var cityDubai = new Salmon('Dubai', 11, 38, 3.7);
 var cityParis = new Salmon('Paris', 20, 38, 2.3);
 var cityLima = new Salmon('Lima', 2, 16, 4.6);
 
-// Does there need to be an Array as a fifth column (argument)?
-
 Salmon.prototype.custEst = function() {
   return Math.random() * (this.maxCust - this.minCust) + this.minCust;
 };
@@ -47,23 +45,36 @@ Salmon.prototype.calcTotalSales = function() {
   this.totalSales = sum;
   console.log(sum);
 };
+// Why some are prototype and some not? v
 
-Salmon.prototype.calcHourlyTotalSales = function() {
-  var sum =0;
-  for (var h = 0; h < hrs.length; h++) {
-    this.hourlyTotalSales.push(
-      sum += this.hourlySales[h]);
-  }
-};
+function renderTotalRow() {
+  var footerRow = document.createElement('tr');
+  var totalTd = document.createElement('td');
+  totalTd.textContent = 'Total';
+  footerRow.appendChild(totalTd);
+  salesTable.appendChild(footerRow);
 
-Salmon.prototype.calcTotalTotalSales = function() {
-  var sum = 0;
-  for (var h = 0; h < hrs.length; h++) {
-    sum += this.totalTotalSales[h];
+  var totalTotalSales = 0;
+
+  for(var i = 0; i < hrs.length; i++) {
+    var hourlySalesTotal = 0;
+    for(var j = 0; j < cityArray.length; j++) {
+      hourlySalesTotal = hourlySalesTotal + cityArray[j].hourlySales[i];
+    }
+    var hourlySalesTotalTd = document.createElement('td');
+    hourlySalesTotalTd.textContent = hourlySalesTotal;
+    footerRow.appendChild(hourlySalesTotalTd);
+
+    totalTotalSales = totalTotalSales + hourlySalesTotal;
+    console.log('hoursSalesTotal', hrs[i], hourlySalesTotal);
+
+    //Create the elements needed for the table
+    //Append the values onto the table
   }
-  this.totalTotalSales = sum;
-  console.log(sum);
-};
+  var totalTotalSalesTd = document.createElement('td');
+  totalTotalSalesTd.textContent = totalTotalSales;
+  footerRow.appendChild(totalTotalSalesTd);
+}
 
 Salmon.prototype.render = function() {
   var salesRow = document.createElement('tr');
@@ -122,12 +133,32 @@ function calcAndRenderSales() {
     cityArray[i].calcHourlySales();
     cityArray[i].calcTotalSales();
     cityArray[i].render();
-    // cityArray[i].calcHourlyTotalSales();
-    // cityArray[i].calcTotalTotalSales();
   }
+  renderTotalRow();
+  // salesTable.appendChild(renderTotalRow);
+  // cityArray[i].calcHourlyTotalSales();
+  // cityArray[i].calcTotalTotalSales();
+
 }
 
 calcAndRenderSales();
+
+// Salmon.prototype.calcHourlyTotalSales = function() {
+//   var sum =0;
+//   for (var h = 0; h < hrs.length; h++) {
+//     this.hourlyTotalSales.push(
+//       sum += this.hourlySales[h]);
+//   }
+// };
+
+// Salmon.prototype.calcTotalTotalSales = function() {
+//   var sum = 0;
+//   for (var h = 0; h < hrs.length; h++) {
+//     sum += this.totalTotalSales[h];
+//   }
+//   this.totalTotalSales = sum;
+//   console.log(sum);
+// };
 
 // citySeattle.calcHourlySales();
 // citySeattle.calcTotalSales();
