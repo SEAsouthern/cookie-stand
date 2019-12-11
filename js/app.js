@@ -9,6 +9,8 @@ function Salmon(name, minCust, maxCust, avgCookie) {
   this.avgCookie = avgCookie;
   this.hourlySales = [];
   this.totalSales = null;
+  this.hourlyTotalSales = [];
+  this.totalTotalSales = null;
 }
 
 var citySeattle = new Salmon('Seattle', 23, 65, 6.3);
@@ -40,8 +42,24 @@ Salmon.prototype.calcTotalSales = function() {
   console.log(sum);
 };
 
-Salmon.prototype.render = function() {
+Salmon.prototype.calcHourlyTotalSales = function() {
+  var sum =0;
+  for (var h = 0; h < hrs.length; h++) {
+    this.hourlyTotalSales.push(
+      sum += this.hourlySales[h]);
+  }
+};
 
+Salmon.prototype.calcTotalTotalSales = function() {
+  var sum = 0;
+  for (var h = 0; h < hrs.length; h++) {
+    sum += this.totalTotalSales[h];
+  }
+  this.totalTotalSales = sum;
+  console.log(sum);
+};
+
+Salmon.prototype.render = function() {
   var salesRow = document.createElement('tr');
   var salesCellFirst = document.createElement('td');
   salesCellFirst.textContent = this.name;
@@ -57,8 +75,21 @@ Salmon.prototype.render = function() {
   salesTable.appendChild(salesRow);
 };
 
-// Add total sales cell to end of hours row
-// Add total sales row (loop) to bottom of table
+Salmon.prototype.hourlyTotalSales = function() {
+  var totalsRow = document.createElement('tr');
+  var totalsCellFirst = document.createElement('td');
+  totalsCellFirst.textContent = 'Totals';
+  totalsRow.appendChild(totalsCellFirst);
+  for (var t =0; t < hrs.length; t++) {
+    var totalsCell = document.createElement('td');
+    totalsCell.textContent = this.hourlyTotalSales[t];
+  }
+  var totalsCellTotal = document.createElement('td');
+  totalsCellTotal.textContent = this.totalTotalSales;
+  totalsRow.appendChild(totalsCellTotal);
+  salesTable.appendChild(totalsRow);
+
+};
 
 var salesTable = document.getElementById('sales-table');
 
@@ -71,11 +102,15 @@ for (var h = 0; h < hrs.length; h++) {
   hoursCell.textContent = hrs[h];
   hoursRow.appendChild(hoursCell);
 }
+var hoursCellLast = document.createElement('td');
+hoursCellLast.textContent = 'Total';
+hoursRow.appendChild(hoursCellLast);
 salesTable.appendChild(hoursRow);
 
 citySeattle.calcHourlySales();
 citySeattle.calcTotalSales();
 citySeattle.render();
+// citySeattle.hourlyTotalSales();
 
 cityTokyo.calcHourlySales();
 cityTokyo.calcTotalSales();
