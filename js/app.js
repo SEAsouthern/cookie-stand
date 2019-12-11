@@ -40,24 +40,31 @@ Salmon.prototype.calcTotalSales = function() {
 };
 
 Salmon.prototype.render = function() {
-  var salesTable = document.getElementById('sales-table');
-
-  var hoursRow = document.createElement('tr');
-  for (var h = 0; h < hrs.length; h++) {
-    var hoursCell = document.createElement('td');
-    hoursCell.textContent = hrs[h];
-    hoursRow.appendChild(hoursCell);
-  }
 
   var salesRow = document.createElement('tr');
+  var salesCellFirst = document.createElement('td');
+  salesCellFirst.textContent = this.name;
+  salesRow.appendChild(salesCellFirst);
   for (var s = 0; s < hrs.length; s++) {
     var salesCell = document.createElement('td');
     salesCell.textContent = this.hourlySales[s];
     salesRow.appendChild(salesCell);
   }
-  salesTable.appendChild(hoursRow);
   salesTable.appendChild(salesRow);
 };
+
+var salesTable = document.getElementById('sales-table');
+
+var hoursRow = document.createElement('tr');
+var hoursCellFirst = document.createElement('td');
+hoursCellFirst.textContent = 'City';
+hoursRow.appendChild(hoursCellFirst);
+for (var h = 0; h < hrs.length; h++) {
+  var hoursCell = document.createElement('td');
+  hoursCell.textContent = hrs[h];
+  hoursRow.appendChild(hoursCell);
+}
+salesTable.appendChild(hoursRow);
 
 citySeattle.calcHourlySales();
 citySeattle.render();
