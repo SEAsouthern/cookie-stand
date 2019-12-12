@@ -15,13 +15,13 @@ function Salmon(name, minCust, maxCust, avgCookie) {
   this.totalTotalSales = null;
 }
 
-// Do totalSales and totalTotalSales need to save to a array? Or is null okay?
-
 var citySeattle = new Salmon('Seattle', 23, 65, 6.3);
 var cityTokyo = new Salmon('Tokyo', 3, 24, 1.2);
 var cityDubai = new Salmon('Dubai', 11, 38, 3.7);
 var cityParis = new Salmon('Paris', 20, 38, 2.3);
 var cityLima = new Salmon('Lima', 2, 16, 4.6);
+
+var cityArray = [citySeattle, cityTokyo, cityDubai, cityParis, cityLima];
 
 Salmon.prototype.custEst = function() {
   return Math.random() * (this.maxCust - this.minCust) + this.minCust;
@@ -29,6 +29,39 @@ Salmon.prototype.custEst = function() {
 
 Salmon.prototype.salesEst = function() {
   return Math.ceil(this.custEst() * this.avgCookie);
+};
+
+var salesTable = document.getElementById('sales-table');
+
+function renderHoursRow() {
+  var hoursRow = document.createElement('tr');
+  var hoursCellFirst = document.createElement('td');
+  hoursRow.appendChild(hoursCellFirst);
+  for (var h = 0; h < hrs.length; h++) {
+    var hoursCell = document.createElement('td');
+    hoursCell.textContent = hrs[h];
+    hoursRow.appendChild(hoursCell);
+  }
+  var hoursCellLast = document.createElement('td');
+  hoursCellLast.textContent = 'Total';
+  hoursRow.appendChild(hoursCellLast);
+  salesTable.appendChild(hoursRow);
+}
+
+Salmon.prototype.renderCityRows = function() {
+  var salesRow = document.createElement('tr');
+  var salesCellFirst = document.createElement('td');
+  salesCellFirst.textContent = this.name;
+  salesRow.appendChild(salesCellFirst);
+  for (var s = 0; s < hrs.length; s++) {
+    var salesCell = document.createElement('td');
+    salesCell.textContent = this.hourlySales[s];
+    salesRow.appendChild(salesCell);
+  }
+  var salesCellTotal = document.createElement('td');
+  salesCellTotal.textContent = this.totalSales;
+  salesRow.appendChild(salesCellTotal);
+  salesTable.appendChild(salesRow);
 };
 
 Salmon.prototype.calcHourlySales = function() {
@@ -43,9 +76,23 @@ Salmon.prototype.calcTotalSales = function() {
     sum += this.hourlySales[h];
   }
   this.totalSales = sum;
-  console.log(sum);
 };
-// Why some are prototype and some not? v
+
+Salmon.prototype.hourlyTotalSales = function() {
+  var totalsRow = document.createElement('tr');
+  var totalsCellFirst = document.createElement('td');
+  totalsCellFirst.textContent = 'Totals';
+  totalsRow.appendChild(totalsCellFirst);
+  for (var t =0; t < hrs.length; t++) {
+    var totalsCell = document.createElement('td');
+    totalsCell.textContent = this.hourlyTotalSales[t];
+  }
+  var totalsCellTotal = document.createElement('td');
+  totalsCellTotal.textContent = this.totalTotalSales;
+  totalsRow.appendChild(totalsCellTotal);
+  salesTable.appendChild(totalsRow);
+
+};
 
 function renderTotalRow() {
   var footerRow = document.createElement('tr');
@@ -66,82 +113,44 @@ function renderTotalRow() {
     footerRow.appendChild(hourlySalesTotalTd);
 
     totalTotalSales = totalTotalSales + hourlySalesTotal;
-    console.log('hoursSalesTotal', hrs[i], hourlySalesTotal);
-
-    //Create the elements needed for the table
-    //Append the values onto the table
   }
   var totalTotalSalesTd = document.createElement('td');
   totalTotalSalesTd.textContent = totalTotalSales;
   footerRow.appendChild(totalTotalSalesTd);
 }
 
-Salmon.prototype.render = function() {
-  var salesRow = document.createElement('tr');
-  var salesCellFirst = document.createElement('td');
-  salesCellFirst.textContent = this.name;
-  salesRow.appendChild(salesCellFirst);
-  for (var s = 0; s < hrs.length; s++) {
-    var salesCell = document.createElement('td');
-    salesCell.textContent = this.hourlySales[s];
-    salesRow.appendChild(salesCell);
-  }
-  var salesCellTotal = document.createElement('td');
-  salesCellTotal.textContent = this.totalSales;
-  salesRow.appendChild(salesCellTotal);
-  salesTable.appendChild(salesRow);
-};
-
-Salmon.prototype.hourlyTotalSales = function() {
-  var totalsRow = document.createElement('tr');
-  var totalsCellFirst = document.createElement('td');
-  totalsCellFirst.textContent = 'Totals';
-  totalsRow.appendChild(totalsCellFirst);
-  for (var t =0; t < hrs.length; t++) {
-    var totalsCell = document.createElement('td');
-    totalsCell.textContent = this.hourlyTotalSales[t];
-  }
-  var totalsCellTotal = document.createElement('td');
-  totalsCellTotal.textContent = this.totalTotalSales;
-  totalsRow.appendChild(totalsCellTotal);
-  salesTable.appendChild(totalsRow);
-
-};
-
-var salesTable = document.getElementById('sales-table');
-
-var hoursRow = document.createElement('tr');
-var hoursCellFirst = document.createElement('td');
-// hoursCellFirst.textContent = null;
-hoursRow.appendChild(hoursCellFirst);
-for (var h = 0; h < hrs.length; h++) {
-  var hoursCell = document.createElement('td');
-  hoursCell.textContent = hrs[h];
-  hoursRow.appendChild(hoursCell);
-}
-var hoursCellLast = document.createElement('td');
-hoursCellLast.textContent = 'Total';
-hoursRow.appendChild(hoursCellLast);
-salesTable.appendChild(hoursRow);
-
-//Create cityArray and then loop through all these functions
-
-var cityArray = [citySeattle, cityTokyo, cityDubai, cityParis, cityLima];
-
 function calcAndRenderSales() {
+  renderHoursRow();
   for (var i = 0; i < cityArray.length; i++) {
     cityArray[i].calcHourlySales();
     cityArray[i].calcTotalSales();
-    cityArray[i].render();
+    cityArray[i].renderCityRows();
   }
   renderTotalRow();
-  // salesTable.appendChild(renderTotalRow);
-  // cityArray[i].calcHourlyTotalSales();
-  // cityArray[i].calcTotalTotalSales();
-
 }
 
 calcAndRenderSales();
+
+function handleFormSubmitted(event) {
+  event.preventDefault();
+  var nameInput = document.getElementById('name');
+  var nameValue = nameInput['value'];
+  var minCustInput = document.getElementById('minCust');
+  var minCustValue = minCustInput['value'];
+  var maxCustInput = document.getElementById('maxCust');
+  var maxCustValue = maxCustInput['value'];
+  var avgCookieInput = document.getElementById('avgCookie');
+  var avgCookieValue = avgCookieInput['value'];
+  var newSalmon = new Salmon(nameValue, Number(minCustValue), Number(maxCustValue), Number(avgCookieValue));
+  console.log(minCustValue,maxCustValue,avgCookieValue);
+  cityArray.push(newSalmon);
+  console.log(cityArray);
+  salesTable.innerHTML = '';
+  calcAndRenderSales();
+}
+
+var formElement = document.getElementById('new-city');
+formElement.addEventListener('submit', handleFormSubmitted);
 
 // Salmon.prototype.calcHourlyTotalSales = function() {
 //   var sum =0;
