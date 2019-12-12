@@ -119,17 +119,23 @@ function renderTotalRow() {
   footerRow.appendChild(totalTotalSalesTd);
 }
 
-function calcAndRenderSales() {
-  renderHoursRow();
+function calcSales() {
   for (var i = 0; i < cityArray.length; i++) {
     cityArray[i].calcHourlySales();
     cityArray[i].calcTotalSales();
+  }
+}
+
+function renderSalesTable() {
+  renderHoursRow();
+  for (var i = 0; i < cityArray.length; i++) {
     cityArray[i].renderCityRows();
   }
   renderTotalRow();
 }
 
-calcAndRenderSales();
+calcSales();
+renderSalesTable();
 
 function handleFormSubmitted(event) {
   event.preventDefault();
@@ -142,11 +148,10 @@ function handleFormSubmitted(event) {
   var avgCookieInput = document.getElementById('avgCookie');
   var avgCookieValue = avgCookieInput['value'];
   var newSalmon = new Salmon(nameValue, Number(minCustValue), Number(maxCustValue), Number(avgCookieValue));
-  console.log(minCustValue,maxCustValue,avgCookieValue);
   cityArray.push(newSalmon);
-  console.log(cityArray);
+  calcSales();
   salesTable.innerHTML = '';
-  calcAndRenderSales();
+  renderSalesTable();
 }
 
 var formElement = document.getElementById('new-city');
@@ -287,36 +292,4 @@ formElement.addEventListener('submit', handleFormSubmitted);
 
 
 
-// }
-
-
-
-
-// firstDog = {
-//   weight: 35,
-//   breed: jindo,
-//   name: boog,
-//   imgUrl: 'https:',
-//   descriptionWords: ['hungry', 'blue eyes'],
-//   getDescription: function () {
-//     return this.descriptionWords[Math.floor(Math.random) * this.descriptionWords.length];
-//   }
-// };
-// firstcat = {
-//   weight: 4,
-//   breed: calico,
-//   name: mew,
-//   imgUrl: 'https'
-//   descriptionWords: ['small', 'meowy'],
-//   getDescription: function () {
-//     this.descriptionWords[Math.floor(math.random * this.descriptionWords.lenght)]
-//   }
-// }
-// var pets = [firstDog, firstcat];
-// var animalHolder = .getElemnetById('animal-holder');
-// animalHolder.textContent = 'the animals Go Here';
-// for (var i = 0, i < pets.length; i++){
-// var newParagraph = document.createElement('p');
-// newParagraph.textContent = 'an adoptable ${pets[i].breed} that is ${pets[i].getDescrition()}';
-// animalHolder.appendChild(newParagraph);
 // }
