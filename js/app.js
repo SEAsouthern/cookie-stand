@@ -22,7 +22,7 @@ var cityArray = [citySeattle, cityTokyo, cityDubai, cityParis, cityLima];
 var hrsArray = ['6 a.m.', '7 a.m.', '8 a.m.', '9 a.m.', '10 a.m.', '11 a.m.', '12 p.m.', '1 p.m.', '2 p.m.', '3 p.m.', '4 p.m.', '5 p.m.', '6 p.m.', '7 p.m.'];
 
 Salmon.prototype.custEst = function() {
-  return Math.random() * (this.maxCust - this.minCust +1) + this.minCust;
+  return Math.random() * (this.maxCust - this.minCust + 1) + this.minCust;
 };
 
 Salmon.prototype.salesEst = function() {
