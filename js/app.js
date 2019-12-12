@@ -1,6 +1,6 @@
 'use strict';
 
-var hrs = ['6 a.m.', '7 a.m.', '8 a.m.', '9 a.m.', '10 a.m.', '11 a.m.', '12 p.m.', '1 p.m.', '2 p.m.', '3 p.m.', '4 p.m.', '5 p.m.', '6 p.m.', '7 p.m.'];
+var hrsArray = ['6 a.m.', '7 a.m.', '8 a.m.', '9 a.m.', '10 a.m.', '11 a.m.', '12 p.m.', '1 p.m.', '2 p.m.', '3 p.m.', '4 p.m.', '5 p.m.', '6 p.m.', '7 p.m.'];
 
 
 // Below is my constructor function
@@ -37,9 +37,9 @@ function renderHoursRow() {
   var hoursRow = document.createElement('tr');
   var hoursCellFirst = document.createElement('td');
   hoursRow.appendChild(hoursCellFirst);
-  for (var h = 0; h < hrs.length; h++) {
+  for (var h = 0; h < hrsArray.length; h++) {
     var hoursCell = document.createElement('td');
-    hoursCell.textContent = hrs[h];
+    hoursCell.textContent = hrsArray[h];
     hoursRow.appendChild(hoursCell);
   }
   var hoursCellLast = document.createElement('td');
@@ -53,7 +53,7 @@ Salmon.prototype.renderCityRows = function() {
   var salesCellFirst = document.createElement('td');
   salesCellFirst.textContent = this.name;
   salesRow.appendChild(salesCellFirst);
-  for (var s = 0; s < hrs.length; s++) {
+  for (var s = 0; s < hrsArray.length; s++) {
     var salesCell = document.createElement('td');
     salesCell.textContent = this.hourlySales[s];
     salesRow.appendChild(salesCell);
@@ -65,14 +65,14 @@ Salmon.prototype.renderCityRows = function() {
 };
 
 Salmon.prototype.calcHourlySales = function() {
-  for (var h = 0; h < hrs.length; h++) {
+  for (var h = 0; h < hrsArray.length; h++) {
     this.hourlySales.push(this.salesEst());
   }
 };
 
 Salmon.prototype.calcTotalSales = function() {
   var sum = 0;
-  for (var h = 0; h < hrs.length; h++) {
+  for (var h = 0; h < hrsArray.length; h++) {
     sum += this.hourlySales[h];
   }
   this.totalSales = sum;
@@ -83,7 +83,7 @@ Salmon.prototype.hourlyTotalSales = function() {
   var totalsCellFirst = document.createElement('td');
   totalsCellFirst.textContent = 'Totals';
   totalsRow.appendChild(totalsCellFirst);
-  for (var t =0; t < hrs.length; t++) {
+  for (var t =0; t < hrsArray.length; t++) {
     var totalsCell = document.createElement('td');
     totalsCell.textContent = this.hourlyTotalSales[t];
   }
@@ -103,7 +103,7 @@ function renderTotalRow() {
 
   var totalTotalSales = 0;
 
-  for(var i = 0; i < hrs.length; i++) {
+  for(var i = 0; i < hrsArray.length; i++) {
     var hourlySalesTotal = 0;
     for(var j = 0; j < cityArray.length; j++) {
       hourlySalesTotal = hourlySalesTotal + cityArray[j].hourlySales[i];
@@ -119,17 +119,23 @@ function renderTotalRow() {
   footerRow.appendChild(totalTotalSalesTd);
 }
 
-function calcAndRenderSales() {
-  renderHoursRow();
+function calcSales() {
   for (var i = 0; i < cityArray.length; i++) {
     cityArray[i].calcHourlySales();
     cityArray[i].calcTotalSales();
+  }
+}
+
+function renderSalesTable() {
+  renderHoursRow();
+  for (var i = 0; i < cityArray.length; i++) {
     cityArray[i].renderCityRows();
   }
   renderTotalRow();
 }
 
-calcAndRenderSales();
+calcSales();
+renderSalesTable();
 
 function handleFormSubmitted(event) {
   event.preventDefault();
@@ -142,11 +148,10 @@ function handleFormSubmitted(event) {
   var avgCookieInput = document.getElementById('avgCookie');
   var avgCookieValue = avgCookieInput['value'];
   var newSalmon = new Salmon(nameValue, Number(minCustValue), Number(maxCustValue), Number(avgCookieValue));
-  console.log(minCustValue,maxCustValue,avgCookieValue);
   cityArray.push(newSalmon);
-  console.log(cityArray);
+  calcSales();
   salesTable.innerHTML = '';
-  calcAndRenderSales();
+  renderSalesTable();
 }
 
 var formElement = document.getElementById('new-city');
@@ -154,7 +159,7 @@ formElement.addEventListener('submit', handleFormSubmitted);
 
 // Salmon.prototype.calcHourlyTotalSales = function() {
 //   var sum =0;
-//   for (var h = 0; h < hrs.length; h++) {
+//   for (var h = 0; h < hrsArray.length; h++) {
 //     this.hourlyTotalSales.push(
 //       sum += this.hourlySales[h]);
 //   }
@@ -162,7 +167,7 @@ formElement.addEventListener('submit', handleFormSubmitted);
 
 // Salmon.prototype.calcTotalTotalSales = function() {
 //   var sum = 0;
-//   for (var h = 0; h < hrs.length; h++) {
+//   for (var h = 0; h < hrsArray.length; h++) {
 //     sum += this.totalTotalSales[h];
 //   }
 //   this.totalTotalSales = sum;
@@ -204,9 +209,9 @@ formElement.addEventListener('submit', handleFormSubmitted);
 //   var newH1 = document.createElement('h1');
 //   newH1.textContent = `${cityArray[i].name} sales estimate`;
 //   cityHolder.appendChild(newH1);
-//   for (var h = 0; h < hrs.length; h++) {
+//   for (var h = 0; h < hrsArray.length; h++) {
 //     var newLi = document.createElement('li');
-//     newLi.textContent = hrs[h] + ': ' + `${cityArray[i].salesEst()}`;
+//     newLi.textContent = hrsArray[h] + ': ' + `${cityArray[i].salesEst()}`;
 //     cityHolder.appendChild(newLi);
 //   }
 
@@ -287,36 +292,4 @@ formElement.addEventListener('submit', handleFormSubmitted);
 
 
 
-// }
-
-
-
-
-// firstDog = {
-//   weight: 35,
-//   breed: jindo,
-//   name: boog,
-//   imgUrl: 'https:',
-//   descriptionWords: ['hungry', 'blue eyes'],
-//   getDescription: function () {
-//     return this.descriptionWords[Math.floor(Math.random) * this.descriptionWords.length];
-//   }
-// };
-// firstcat = {
-//   weight: 4,
-//   breed: calico,
-//   name: mew,
-//   imgUrl: 'https'
-//   descriptionWords: ['small', 'meowy'],
-//   getDescription: function () {
-//     this.descriptionWords[Math.floor(math.random * this.descriptionWords.lenght)]
-//   }
-// }
-// var pets = [firstDog, firstcat];
-// var animalHolder = .getElemnetById('animal-holder');
-// animalHolder.textContent = 'the animals Go Here';
-// for (var i = 0, i < pets.length; i++){
-// var newParagraph = document.createElement('p');
-// newParagraph.textContent = 'an adoptable ${pets[i].breed} that is ${pets[i].getDescrition()}';
-// animalHolder.appendChild(newParagraph);
 // }
