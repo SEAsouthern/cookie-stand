@@ -24,11 +24,11 @@ var cityLima = new Salmon('Lima', 2, 16, 4.6);
 var cityArray = [citySeattle, cityTokyo, cityDubai, cityParis, cityLima];
 
 Salmon.prototype.custEst = function() {
-  return Math.random() * (this.maxCust - this.minCust) + this.minCust;
+  return Math.random() * (this.maxCust - this.minCust + 1) + this.minCust;
 };
 
 Salmon.prototype.salesEst = function() {
-  return Math.ceil(this.custEst() * this.avgCookie);
+  return Math.floor(this.custEst() * this.avgCookie);
 };
 
 var salesTable = document.getElementById('sales-table');
@@ -149,7 +149,9 @@ function handleFormSubmitted(event) {
   var avgCookieValue = avgCookieInput['value'];
   var newSalmon = new Salmon(nameValue, Number(minCustValue), Number(maxCustValue), Number(avgCookieValue));
   cityArray.push(newSalmon);
-  calcSales();
+  // calcSales();
+  newSalmon.calcHourlySales();
+  newSalmon.calcTotalSales();
   salesTable.innerHTML = '';
   renderSalesTable();
 }
